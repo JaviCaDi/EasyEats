@@ -1,0 +1,47 @@
+<div class="container mt-5">
+    <h2>Registro como {{ tipo }}</h2>
+
+    <form [formGroup]="form" (ngSubmit)="registrar()" class="mt-4">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" id="nombre" class="form-control" formControlName="nombre">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" formControlName="email">
+        </div>
+
+        <div class="mb-3">
+            <label for="contraseña" class="form-label">Contraseña</label>
+            <input type="password" id="contraseña" class="form-control" formControlName="contraseña">
+        </div>
+
+        <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="text" id="telefono" class="form-control" formControlName="telefono">
+        </div>
+
+        <div *ngIf="tipo === 'comerciante'" class="mb-3">
+            <label for="nombreNegocio" class="form-label">Nombre del Negocio</label>
+            <input type="text" id="nombreNegocio" class="form-control" formControlName="nombreNegocio">
+        </div>
+
+        <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección</label>
+            <input type="text" id="direccion" class="form-control" formControlName="direccion">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Selecciona la ubicación en el mapa:</label>
+            <div class="rounded shadow-sm" style="overflow: hidden;">
+                <app-mapa [direccion]="form.get('direccion')?.value"
+                    (coordenadasSeleccionadas)="onUbicacionSeleccionada($event)">
+                </app-mapa>
+            </div>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Registrarse</button>
+    </form>
+</div>

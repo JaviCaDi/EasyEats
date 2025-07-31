@@ -1,0 +1,79 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">EasyEats</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Usuario (USER) -->
+        <ng-container *ngIf="role === 'ROLE_USER'">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/packs" routerLinkActive="active">Packs disponibles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/mis-reservas" routerLinkActive="active">Mis reservas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/perfil" routerLinkActive="active">Mi perfil</a>
+          </li>
+        </ng-container>
+
+        <!-- Negocio (BUSINESS) -->
+        <ng-container *ngIf="role === 'ROLE_BUSINESS'">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/negocio/crear-pack" routerLinkActive="active">Crear pack</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/negocio/mis-packs" routerLinkActive="active">Mis packs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/negocio/reservas" routerLinkActive="active">Reservas recibidas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/negocio/estadisticas" routerLinkActive="active">Estadísticas</a>
+          </li>
+        </ng-container>
+
+        <!-- Admin -->
+        <ng-container *ngIf="role === 'ROLE_ADMIN'">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin" routerLinkActive="active">Panel</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/usuarios" routerLinkActive="active">Usuarios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/reportes" routerLinkActive="active">Reportes</a>
+          </li>
+        </ng-container>
+      </ul>
+
+      <ul class="navbar-nav ms-auto">
+        <!-- Si no está logeado -->
+        <ng-container *ngIf="!isLoggedIn()">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/register" routerLinkActive="active">Register</a>
+          </li>
+        </ng-container>
+
+        <!-- Si está logeado -->
+        <ng-container *ngIf="isLoggedIn()">
+          <li class="nav-item dropdown">
+            <button class="nav-link dropdown-toggle btn btn-link" type="button" data-bs-toggle="dropdown">
+              {{ username }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" (click)="logout()">Cerrar sesión</a></li>
+              <li><a class="dropdown-item" (click)="eliminarCuenta()">Eliminar cuenta</a></li>
+            </ul>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</nav>
