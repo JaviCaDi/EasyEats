@@ -1,0 +1,15 @@
+/* Ajuste para que el contenido no se superponga con el navbar */
+body {
+  padding-top: 70px; /* ajusta según la altura de tu navbar */
+  background-color: #f8f9fa; /* gris claro de Bootstrap */
+  min-height: 100vh;
+}
+
+/* Forzar que el router-outlet ocupe todo el espacio visible */
+main {
+  min-height: calc(100vh - 70px); /* pantalla completa menos navbar */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}

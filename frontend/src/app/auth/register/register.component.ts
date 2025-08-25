@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule, Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
@@ -14,40 +14,23 @@ import { MapaComponent } from '../../shared/mapa/mapa.component';
 })
 export class RegisterComponent implements OnInit {
   form!: FormGroup;
-  tipo: 'cliente' | 'comerciante' = 'cliente';
   coords: { lat: number, lng: number, direccion: string } | null = null;
+  mostrarPassword: boolean = false;
 
   constructor(
-    private route: ActivatedRoute,
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
   ) { }
 
   ngOnInit() {
-    const tipoParam = this.route.snapshot.paramMap.get('tipo');
-    if (tipoParam === 'cliente' || tipoParam === 'comerciante') {
-      this.tipo = tipoParam;
-    }
-
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       contraseña: ['', Validators.required],
       telefono: ['', Validators.required],
-      direccion: ['', Validators.required],
-      ...(this.tipo === 'comerciante' && {
-        nombreNegocio: ['', Validators.required]
-      })
+      direccion: ['', Validators.required]
     });
-
-
-    // Si comerciante, escuchar cambios en campo direccion
-    if (this.tipo === 'comerciante') {
-      this.form.get('direccion')?.valueChanges.subscribe(direccion => {
-        // Se propaga al mapa automáticamente por [direccion]
-      });
-    }
   }
 
   onUbicacionSeleccionada(ubicacion: { lat: number, lng: number, direccion: string }) {
@@ -55,15 +38,42 @@ export class RegisterComponent implements OnInit {
     this.form.patchValue({ direccion: ubicacion.direccion });
   }
 
+  usarMiUbicacion() {
+    if (!navigator.geolocation) {
+      alert('La geolocalización no está soportada en tu navegador.');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        // Reverse geocoding con Nominatim
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+          .then(res => res.json())
+          .then(data => {
+            const direccion = data.display_name || '';
+            this.coords = { lat, lng, direccion };
+            this.form.patchValue({ direccion });
+          })
+          .catch(() => {
+            alert('No se pudo obtener la dirección a partir de tu ubicación.');
+          });
+      },
+      error => {
+        alert('No se pudo acceder a tu ubicación: ' + error.message);
+      }
+    );
+  }
+
   registrar() {
     if (this.form.invalid) return;
 
-    const rolId = this.tipo === 'cliente' ? 1 : 2;
-
     const data = {
       ...this.form.value,
-      rol: { id: rolId },
-      ...(this.tipo === 'comerciante' && this.coords && {
+      rol: { id: 1 }, // Cliente
+      ...(this.coords && {
         latitud: this.coords.lat,
         longitud: this.coords.lng
       })
@@ -80,4 +90,11 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  volver() {
+    this.router.navigate(['/register']);
+  }
+
+  togglePassword() {
+    this.mostrarPassword = !this.mostrarPassword;
+  }
 }

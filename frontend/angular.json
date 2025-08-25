@@ -27,7 +27,9 @@
               }
             ],
             "styles": [
-              "node_modules/leaflet/dist/leaflet.css",
+              "bootstrap/dist/css/bootstrap.min.css",
+              "leaflet/dist/leaflet.css",
+              "cropperjs/dist/cropper.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -86,7 +88,9 @@
               }
             ],
             "styles": [
-              "node_modules/leaflet/dist/leaflet.css",
+              "bootstrap/dist/css/bootstrap.min.css",
+              "leaflet/dist/leaflet.css",
+              "cropperjs/dist/cropper.css",
               "src/styles.css"
             ],
             "scripts": []

@@ -47,12 +47,13 @@ public class AuthService {
         }
     }
 
-    public void registrarUsuario(Usuario usuario) {
-        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
-            throw new RuntimeException("Ya existe un usuario con ese email");
-        }
-
-        usuario.setContraseña(passwordEncoder.encode(usuario.getContraseña()));
-        usuarioRepository.save(usuario);
+public Usuario registrarUsuario(Usuario usuario) {
+    if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+        throw new RuntimeException("Ya existe un usuario con ese email");
     }
+
+    usuario.setContraseña(passwordEncoder.encode(usuario.getContraseña()));
+    return usuarioRepository.save(usuario);
+}
+
 }

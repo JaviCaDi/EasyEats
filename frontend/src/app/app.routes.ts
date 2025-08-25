@@ -24,6 +24,9 @@ import { UsuariosComponent } from './admin/usuarios/usuarios.component';
 import { ReportesComponent } from './admin/reportes/reportes.component';
 import { EstadisticasGeneralesComponent } from './admin/estadisticas-generales/estadisticas-generales.component';
 import { ElegirRegistroComponent } from './auth/elegir-registro/elegir-registro.component';
+import { RegisterComercianteComponent } from './auth/register-comerciante/register-comerciante.component';
+import { RegisterComercioComponent } from './auth/register-comercio/register-comercio.component';
+import { RegistroExitosoComponent } from './auth/registro-exitoso/registro-exitoso.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'packs', pathMatch: 'full' },
@@ -31,7 +34,10 @@ export const routes: Routes = [
   // Auth
   { path: 'login', component: LoginComponent },
   { path: 'register', component: ElegirRegistroComponent },
-  { path: 'register/:tipo', component: RegisterComponent },
+  { path: 'register/cliente', component: RegisterComponent },
+  { path: 'register/comerciante', component: RegisterComercianteComponent },
+  { path: 'register-comercio', component: RegisterComercioComponent },
+  { path: 'registro-exitoso', component: RegistroExitosoComponent },
 
   // Usuario
   { path: 'packs', component: ListaPacksComponent },

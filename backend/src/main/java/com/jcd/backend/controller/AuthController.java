@@ -22,7 +22,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public void register(@RequestBody Usuario usuario) {
-        authService.registrarUsuario(usuario);
+    public Usuario register(@RequestBody Usuario usuario) {
+        return authService.registrarUsuario(usuario);
     }
 }

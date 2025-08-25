@@ -1,0 +1,79 @@
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-lg rounded-4 p-4" style="max-width: 550px; width: 100%;">
+
+    <!-- Título y botón volver -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h3 class="fw-bold mb-0 text-success">Registro como comerciante</h3>
+      <button class="btn btn-outline-secondary btn-sm" (click)="volver()">← Volver</button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="registrar()">
+
+      <!-- Nombre -->
+      <div class="mb-3">
+        <label for="nombre" class="form-label fw-semibold">Nombre</label>
+        <div class="input-group">
+          <span class="input-group-text bg-success text-white"><i class="bi bi-person"></i></span>
+          <input type="text" id="nombre" class="form-control" formControlName="nombre" placeholder="Tu nombre completo" />
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label fw-semibold">Email</label>
+        <div class="input-group">
+          <span class="input-group-text bg-success text-white"><i class="bi bi-envelope"></i></span>
+          <input type="email" id="email" class="form-control" formControlName="email" placeholder="ejemplo@correo.com" />
+        </div>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="mb-3">
+        <label for="contraseña" class="form-label fw-semibold">Contraseña</label>
+        <div class="input-group">
+          <span class="input-group-text bg-success text-white"><i class="bi bi-lock"></i></span>
+          <input [type]="mostrarPassword ? 'text' : 'password'" id="contraseña" class="form-control"
+            formControlName="contraseña" placeholder="••••••••" />
+          <button type="button" class="btn btn-outline-success" (click)="togglePassword()">
+            <i class="bi" [ngClass]="mostrarPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Teléfono -->
+      <div class="mb-3">
+        <label for="telefono" class="form-label fw-semibold">Teléfono</label>
+        <div class="input-group">
+          <span class="input-group-text bg-success text-white"><i class="bi bi-telephone"></i></span>
+          <input type="text" id="telefono" class="form-control" formControlName="telefono" placeholder="+34 600 000 000" />
+        </div>
+      </div>
+
+      <!-- Dirección -->
+      <div class="mb-3">
+        <label for="direccion" class="form-label fw-semibold">Dirección</label>
+        <div class="input-group">
+          <span class="input-group-text bg-success text-white"><i class="bi bi-geo-alt"></i></span>
+          <input type="text" id="direccion" class="form-control" formControlName="direccion" placeholder="Calle, Ciudad..." />
+          <button type="button" class="btn btn-success" (click)="usarUbicacionActual()">
+            <i class="bi bi-geo"></i> Usar mi ubicación
+          </button>
+        </div>
+      </div>
+
+      <!-- Mapa -->
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Selecciona la ubicación en el mapa:</label>
+        <div class="rounded shadow-sm border" style="overflow: hidden; height: 300px;">
+          <app-mapa [direccion]="form.get('direccion')?.value" (coordenadasSeleccionadas)="onUbicacionSeleccionada($event)">
+          </app-mapa>
+        </div>
+      </div>
+
+      <!-- Botón registrar -->
+      <button type="submit" class="btn btn-success w-100 py-2 fw-semibold" [disabled]="form.invalid">
+        Siguiente →
+      </button>
+    </form>
+  </div>
+</div>

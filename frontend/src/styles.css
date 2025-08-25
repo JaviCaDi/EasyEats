@@ -1,1 +1,90 @@
-/* You can add global styles to this file, and also import other style files */
+/* Tipografía global */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f9fa; /* gris claro */
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Colores de marca */
+:root {
+  --primary-color: #28a745; /* verde principal */
+  --primary-color-hover: #218838;
+  --secondary-color: #6c757d; /* gris para secundarios */
+  --input-border-color: #ced4da;
+}
+
+/* Encabezados */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Botones */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-color-hover);
+  border-color: var(--primary-color-hover);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+/* Inputs */
+.form-control {
+  border: 1px solid var(--input-border-color);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+/* Tarjeta formulario */
+.card {
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+/* Sombra */
+.shadow-lg {
+  box-shadow: 0 1rem 3rem rgba(0,0,0,0.175) !important;
+}
+
+/* Botones de acción verdes */
+.btn-success {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  transition: all 0.3s;
+}
+
+.btn-success:hover {
+  background-color: var(--primary-color-hover);
+  border-color: var(--primary-color-hover);
+}
+
+.btn-outline-success {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  transition: all 0.3s;
+}
+
+.btn-outline-success:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+}

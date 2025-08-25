@@ -1,23 +1,50 @@
-<div class="container mt-5">
-  <h2>Iniciar sesión</h2>
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-lg rounded-4 p-4" style="max-width: 450px; width: 100%;">
 
-  <form [formGroup]="form" (ngSubmit)="login()" class="mt-4">
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input type="email" id="email" class="form-control" formControlName="email" />
+    <!-- Título -->
+    <div class="mb-4 text-center">
+      <h3 class="fw-bold text-success mb-0">Iniciar sesión</h3>
     </div>
 
-    <div class="mb-3">
-      <label for="contraseña" class="form-label">Contraseña</label>
-      <input type="password" id="contraseña" class="form-control" formControlName="contraseña" />
-    </div>
+    <form [formGroup]="form" (ngSubmit)="login()">
 
-    <div *ngIf="error" class="alert alert-danger mt-2">
-      {{ error }}
-    </div>
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label fw-semibold">Email</label>
+        <div class="input-group">
+          <span class="input-group-text bg-success text-white"><i class="bi bi-envelope"></i></span>
+          <input type="email" id="email" class="form-control" formControlName="email" placeholder="ejemplo@correo.com">
+        </div>
+      </div>
 
-    <button type="submit" class="btn btn-primary mt-3" [disabled]="form.invalid">
-      Iniciar sesión
-    </button>
-  </form>
+      <!-- Contraseña -->
+      <div class="mb-3">
+        <label for="contraseña" class="form-label fw-semibold">Contraseña</label>
+        <div class="input-group">
+          <span class="input-group-text bg-success text-white"><i class="bi bi-lock"></i></span>
+          <input
+            [type]="mostrarPassword ? 'text' : 'password'"
+            id="contraseña"
+            class="form-control"
+            formControlName="contraseña"
+            placeholder="••••••••"
+          />
+          <button type="button" class="btn btn-outline-success" (click)="togglePassword()">
+            <i class="bi" [ngClass]="mostrarPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mensaje de error -->
+      <div *ngIf="error" class="alert alert-danger mt-2">
+        {{ error }}
+      </div>
+
+      <!-- Botón iniciar sesión -->
+      <button type="submit" class="btn btn-success w-100 py-2 fw-semibold mt-3" [disabled]="form.invalid">
+        <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+      </button>
+
+    </form>
+  </div>
 </div>

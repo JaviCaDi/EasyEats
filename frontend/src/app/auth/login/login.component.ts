@@ -14,6 +14,7 @@ import { AuthService } from '../../core/services/auth.service';
 export class LoginComponent {
   form: FormGroup;
   error: string | null = null;
+  mostrarPassword: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -40,5 +41,9 @@ export class LoginComponent {
         this.error = err.error?.mensaje || 'Credenciales incorrectas';
       }
     });
+  }
+
+  togglePassword() {
+    this.mostrarPassword = !this.mostrarPassword;
   }
 }
