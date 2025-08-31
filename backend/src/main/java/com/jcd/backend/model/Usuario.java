@@ -37,8 +37,13 @@ public class Usuario implements UserDetails {
     @JoinColumn(name = "rol_id", nullable = false)
     private Rol rol;
 
-    // Implementación de UserDetails 👇
+    @OneToOne
+    @JoinColumn(name = "negocio_id", referencedColumnName = "id")
+    private Negocio negocio; // ✅ relación con negocio
 
+    // =========================
+    // UserDetails
+    // =========================
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + rol.getNombre()));
@@ -51,26 +56,18 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.nombre; // o email si prefieres autenticar por correo
+        return this.email; // ✅ mejor autenticar por email
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+    public boolean isAccountNonExpired() { return true; }
 
     @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+    public boolean isAccountNonLocked() { return true; }
 
     @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+    public boolean isCredentialsNonExpired() { return true; }
 
     @Override
-    public boolean isEnabled() {
-        return true;
-    }
+    public boolean isEnabled() { return true; }
 }

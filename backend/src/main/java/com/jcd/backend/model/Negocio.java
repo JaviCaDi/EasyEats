@@ -26,10 +26,6 @@ public class Negocio {
     @Column(name = "imagen_url")
     private String imagenUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
-
     @Transient
     private MultipartFile imagen; // Para recibir la imagen desde Angular
 }

@@ -29,7 +29,7 @@ export class RegisterComercioComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -115,6 +115,9 @@ export class RegisterComercioComponent implements OnInit {
   // =========================
   // ✅ Registro
   // =========================
+  // =========================
+  // ✅ Registro
+  // =========================
   registrarComercio() {
     if (this.form.invalid) return;
 
@@ -135,7 +138,6 @@ export class RegisterComercioComponent implements OnInit {
     // Construimos el JSON de negocio incluyendo lat/lng si existen
     const negocioPayload: any = {
       ...this.form.value,
-      usuario: { id: usuario_id },
       ...(this.coords && {
         latitud: this.coords.lat,
         longitud: this.coords.lng
@@ -149,10 +151,19 @@ export class RegisterComercioComponent implements OnInit {
       formData.append('imagen', this.imagenArchivo);
     }
 
+    // 1️⃣ Crear negocio
     this.authService.crearNegocio(formData).subscribe({
-      next: () => {
-        alert('Comercio registrado con éxito');
-        this.router.navigate(['/']);
+      next: (negocio: any) => {
+        // 2️⃣ Vincular negocio al usuario usando asignarNegocio
+        this.authService.asignarNegocio(usuario_id, negocio.id).subscribe({
+          next: () => {
+            alert('Comercio registrado y vinculado al usuario con éxito');
+            this.router.navigate(['/']);
+          },
+          error: err => {
+            alert('El negocio se creó, pero no se pudo vincular al usuario: ' + (err.error?.mensaje || 'inténtalo de nuevo'));
+          }
+        });
       },
       error: err => {
         alert('Error al registrar comercio: ' + (err.error?.mensaje || 'inténtalo de nuevo'));

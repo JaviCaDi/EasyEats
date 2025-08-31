@@ -11,6 +11,6 @@ export class RegistroExitosoComponent {
   constructor(private router: Router) {}
 
   continuar() {
-    this.router.navigate(['/register-comercio']);
+    this.router.navigate(['/login']);
   }
 }

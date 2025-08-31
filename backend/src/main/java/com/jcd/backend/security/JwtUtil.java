@@ -17,13 +17,14 @@ public class JwtUtil {
     // Genera un token JWT con el email como subject
     public String generateToken(Usuario usuario) {
         return Jwts.builder()
-            .setSubject(usuario.getEmail())
-            .claim("rol", "ROLE_" + usuario.getRol().getNombre().toUpperCase())
-            .claim("nombre", usuario.getNombre()) // <-- Añadimos el nombre aquí
-            .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 día
-            .signWith(SignatureAlgorithm.HS256, secret)
-            .compact();
+                .setSubject(usuario.getEmail())
+                .claim("id", usuario.getId()) // <-- añadimos el id
+                .claim("rol", "ROLE_" + usuario.getRol().getNombre().toUpperCase())
+                .claim("nombre", usuario.getNombre())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 día
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
     }
 
     // Extrae el email desde el token
@@ -42,8 +43,8 @@ public class JwtUtil {
 
     private Claims getClaims(String token) {
         return Jwts.parser()
-            .setSigningKey(secret)
-            .parseClaimsJws(token)
-            .getBody();
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
     }
 }

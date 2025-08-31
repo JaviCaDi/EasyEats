@@ -9,6 +9,7 @@ export interface Usuario {
   nombre: string;
   email: string;
   rol?: string;
+  negocioId?: number | null;
 }
 
 @Injectable({
@@ -19,7 +20,7 @@ export class AuthService {
   private userUrl = 'http://localhost:8080/api/usuario';
   private negocioUrl = 'http://localhost:8080/api/negocio';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   crearNegocio(data: any) {
     return this.http.post(this.negocioUrl, data);
@@ -75,4 +76,31 @@ export class AuthService {
   eliminarCuenta() {
     return this.http.delete(`${this.userUrl}/me`);
   }
+
+  getUsuario(id: number): Observable<Usuario> {
+    const token = this.getToken();
+    return this.http.get<Usuario>(`${this.userUrl}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  }
+
+
+  asignarNegocio(usuarioId: number, negocioId: number) {
+    return this.http.put<Usuario>(`${this.userUrl}/${usuarioId}/negocio/${negocioId}`, {});
+  }
+
+
+  getUserId(): number | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const decoded: any = jwtDecode(token);
+      return decoded.id || null;
+    } catch {
+      return null;
+    }
+  }
+
 }

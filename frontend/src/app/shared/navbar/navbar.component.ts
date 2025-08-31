@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService, Usuario } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,8 +10,30 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
-  constructor(public authService: AuthService, private router: Router) {}
+export class NavbarComponent implements OnInit {
+  usuario?: Usuario;
+
+  constructor(public authService: AuthService, private router: Router) { }
+
+  ngOnInit() {
+    if (this.authService.isLoggedIn() && this.authService.getRole() === 'ROLE_BUSINESS') {
+      const id = this.authService.getUserId();
+      if (id) {
+        this.authService.getUsuario(id).subscribe(u => {
+          // Mapear negocio.id a negocioId
+          this.usuario = {
+            ...u,
+            negocioId: (u as any).negocio ? (u as any).negocio.id : null
+          };
+        });
+      }
+    }
+  }
+
+
+  tieneNegocio(): boolean {
+    return !!this.usuario?.negocioId;
+  }
 
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
@@ -22,7 +44,7 @@ export class NavbarComponent {
   }
 
   get role(): string {
-    return this.authService.getRole(); // 'USER', 'BUSINESS', 'ADMIN'
+    return this.authService.getRole();
   }
 
   logout() {

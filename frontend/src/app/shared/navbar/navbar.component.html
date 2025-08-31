@@ -22,19 +22,26 @@
 
         <!-- Negocio (BUSINESS) -->
         <ng-container *ngIf="role === 'ROLE_BUSINESS'">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/negocio/crear-pack" routerLinkActive="active">Crear pack</a>
+          <li class="nav-item" *ngIf="!tieneNegocio()">
+            <a class="nav-link" routerLink="register-comercio" routerLinkActive="active">Crear negocio</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/negocio/mis-packs" routerLinkActive="active">Mis packs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/negocio/reservas" routerLinkActive="active">Reservas recibidas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/negocio/estadisticas" routerLinkActive="active">Estadísticas</a>
-          </li>
+
+          <ng-container *ngIf="tieneNegocio()">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/negocio/crear-pack" routerLinkActive="active">Crear pack</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/negocio/mis-packs" routerLinkActive="active">Mis packs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/negocio/reservas" routerLinkActive="active">Reservas recibidas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/negocio/estadisticas" routerLinkActive="active">Estadísticas</a>
+            </li>
+          </ng-container>
         </ng-container>
+
 
         <!-- Admin -->
         <ng-container *ngIf="role === 'ROLE_ADMIN'">
