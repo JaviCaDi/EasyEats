@@ -1,1 +1,29 @@
-<p>mis-packs works!</p>
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Mis Packs</h2>
+
+  <div *ngIf="packs.length === 0" class="text-center text-secondary">
+    No tienes packs creados todavía.
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-4" *ngFor="let pack of packs">
+      <div class="card shadow-sm h-100">
+        <img *ngIf="pack.imagenUrl" 
+             [src]="'http://localhost:8080' + pack.imagenUrl" 
+             class="card-img-top" 
+             alt="{{ pack.titulo }}" 
+             style="height: 200px; object-fit: cover;">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ pack.titulo }}</h5>
+          <p class="card-text text-truncate">{{ pack.descripcion }}</p>
+          <p class="mb-1"><strong>Precio:</strong> €{{ pack.precio }}</p>
+          <p class="mb-3"><strong>Cantidad:</strong> {{ pack.cantidad }}</p>
+          <div class="mt-auto d-flex justify-content-between">
+            <button class="btn btn-outline-success btn-sm" (click)="editarPack(pack.id)">Editar</button>
+            <button class="btn btn-outline-danger btn-sm" (click)="eliminarPack(pack.id)">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

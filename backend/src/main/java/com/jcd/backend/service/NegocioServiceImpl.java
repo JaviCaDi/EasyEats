@@ -11,6 +11,8 @@ import com.jcd.backend.repository.NegocioRepository;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -61,5 +63,15 @@ public class NegocioServiceImpl implements NegocioService {
         } catch (IOException e) {
             throw new RuntimeException("Error al guardar la imagen: " + e.getMessage());
         }
+    }
+
+    @Override
+    public List<Negocio> listarNegocios() {
+        return negocioRepository.findAll();
+    }
+
+    @Override
+    public Optional<Negocio> obtenerPorId(Long id) {
+        return negocioRepository.findById(id);
     }
 }

@@ -8,9 +8,21 @@ export interface Usuario {
   id: number;
   nombre: string;
   email: string;
-  rol?: string;
-  negocioId?: number | null;
+  contraseña?: string;
+  telefono?: string;
+  direccion?: string;
+  rol?: any;
+  // 👇 añadir el objeto negocio
+  negocio?: {
+    id: number;
+    nombre: string;
+    direccion?: string;
+    horario?: string;
+    descripcion?: string;
+    imagen_url?: string;
+  };
 }
+
 
 @Injectable({
   providedIn: 'root',

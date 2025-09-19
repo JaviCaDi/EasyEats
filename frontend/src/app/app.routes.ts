@@ -27,6 +27,8 @@ import { ElegirRegistroComponent } from './auth/elegir-registro/elegir-registro.
 import { RegisterComercianteComponent } from './auth/register-comerciante/register-comerciante.component';
 import { RegisterComercioComponent } from './auth/register-comercio/register-comercio.component';
 import { RegistroExitosoComponent } from './auth/registro-exitoso/registro-exitoso.component';
+import { ListarNegociosComponent } from './negocios/listar-negocios/listar-negocios.component';
+import { DetalleNegocioComponent } from './negocios/detalle-negocio/detalle-negocio.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'packs', pathMatch: 'full' },
@@ -57,6 +59,10 @@ export const routes: Routes = [
   { path: 'negocio/estadisticas', component: EstadisticasNegocioComponent },
   { path: 'negocio/perfil', component: PerfilNegocioComponent },
 
+  // Negocios
+  { path: 'negocios', component: ListarNegociosComponent },
+  { path: 'negocio/:id', component: DetalleNegocioComponent },
+  
   // Admin (opcional)
   { path: 'admin', component: PanelAdminComponent },
   { path: 'admin/usuarios', component: UsuariosComponent },

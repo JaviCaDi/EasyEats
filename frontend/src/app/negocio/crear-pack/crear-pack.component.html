@@ -1,1 +1,46 @@
-<p>crear-pack works!</p>
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="card shadow-lg w-100" style="max-width: 600px;">
+    <h2 class="text-center mb-4">Crear nuevo pack</h2>
+
+    <form [formGroup]="packForm" (ngSubmit)="crearPack()">
+      <div class="mb-3">
+        <label for="titulo" class="form-label">Título</label>
+        <input type="text" id="titulo" class="form-control" formControlName="titulo">
+      </div>
+
+      <div class="mb-3">
+        <label for="descripcion" class="form-label">Descripción</label>
+        <textarea id="descripcion" class="form-control" rows="3" formControlName="descripcion"></textarea>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="precio" class="form-label">Precio (€)</label>
+          <input type="number" id="precio" class="form-control" formControlName="precio" step="0.01">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="cantidad" class="form-label">Cantidad disponible</label>
+          <input type="number" id="cantidad" class="form-control" formControlName="cantidad">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="imagen" class="form-label">Imagen del pack</label>
+        <input type="file" id="imagen" class="form-control" accept="image/*" (change)="onFileSelected($event)">
+      </div>
+
+      <!-- 🔥 Vista previa de la imagen -->
+      <div *ngIf="imagenPreview" class="text-center mb-3">
+        <p class="mb-2">Vista previa:</p>
+        <img [src]="imagenPreview" alt="Vista previa" class="img-fluid rounded shadow-sm"
+             style="max-height: 200px; object-fit: cover;">
+      </div>
+
+      <div class="d-grid">
+        <button class="btn btn-success btn-lg" type="submit" [disabled]="packForm.invalid">
+          <i class="bi bi-box-seam me-2"></i> Crear Pack
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

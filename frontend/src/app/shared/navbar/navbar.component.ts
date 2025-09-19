@@ -20,19 +20,14 @@ export class NavbarComponent implements OnInit {
       const id = this.authService.getUserId();
       if (id) {
         this.authService.getUsuario(id).subscribe(u => {
-          // Mapear negocio.id a negocioId
-          this.usuario = {
-            ...u,
-            negocioId: (u as any).negocio ? (u as any).negocio.id : null
-          };
+          this.usuario = u; // 👈 ya trae negocio dentro
         });
       }
     }
   }
 
-
   tieneNegocio(): boolean {
-    return !!this.usuario?.negocioId;
+    return !!this.usuario?.negocio?.id; // 👈 usamos negocio.id directamente
   }
 
   isLoggedIn(): boolean {

@@ -1,5 +1,7 @@
 package com.jcd.backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +22,7 @@ public class NegocioController {
         this.negocioService = negocioService;
     }
 
-    @PostMapping(consumes = {"multipart/form-data"})
+    @PostMapping(consumes = { "multipart/form-data" })
     public ResponseEntity<Negocio> crearNegocio(
             @RequestPart("negocio") Negocio negocio,
             @RequestPart(value = "imagen", required = false) MultipartFile imagen) {
@@ -32,5 +34,17 @@ public class NegocioController {
 
         Negocio nuevoNegocio = negocioService.crearNegocio(negocio);
         return ResponseEntity.ok(nuevoNegocio);
+    }
+
+    // 🔹 Nuevo: listar todos los negocios
+    @GetMapping
+    public ResponseEntity<List<Negocio>> listarNegocios() {
+        return ResponseEntity.ok(negocioService.listarNegocios());
+    }
+
+    // 🔹 Nuevo: obtener negocio por id
+    @GetMapping("/{id}")
+    public ResponseEntity<Negocio> obtenerNegocio(@PathVariable Long id) {
+        return ResponseEntity.of(negocioService.obtenerPorId(id));
     }
 }

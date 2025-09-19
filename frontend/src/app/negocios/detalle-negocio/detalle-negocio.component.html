@@ -1,0 +1,47 @@
+<div class="container mt-5" *ngIf="!cargando && negocio">
+  <div class="card shadow-sm mb-4">
+    <!-- Cabecera personalizada -->
+    <div class="negocio-header d-flex align-items-center p-3" style="background-color: #4a90e2;">
+      <img *ngIf="negocio.imagenUrl"
+           [src]="'http://localhost:8080' + negocio.imagenUrl"
+           class="negocio-img rounded-circle"
+           alt="{{ negocio.nombre }}">
+      <h3 class="ms-3 text-white fw-bold">{{ negocio.nombre }}</h3>
+    </div>
+
+    <div class="card-body">
+      <p class="card-text">{{ negocio.descripcion }}</p>
+      <p><strong>Dirección:</strong> {{ negocio.direccion }}</p>
+      <p><strong>Horario:</strong> {{ negocio.horario }}</p>
+    </div>
+  </div>
+
+  <h4>Packs disponibles</h4>
+  <div *ngIf="packs.length > 0; else noPacks" class="row">
+    <div class="col-md-4 mb-3" *ngFor="let pack of packs">
+      <div class="card h-100 shadow-sm">
+        <!-- Imagen del pack -->
+        <img *ngIf="pack.imagenUrl"
+             [src]="'http://localhost:8080' + pack.imagenUrl"
+             class="card-img-top"
+             alt="{{ pack.nombre }}"
+             style="max-height: 200px; object-fit: cover;">
+
+        <div class="card-body">
+          <h5 class="card-title">{{ pack.nombre }}</h5>
+          <p class="card-text">{{ pack.descripcion }}</p>
+          <p><strong>{{ pack.precio }} €</strong></p>
+          <a [routerLink]="['/packs', pack.id]" class="btn btn-primary">Ver pack</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noPacks>
+    <p class="text-muted">Este negocio no tiene packs disponibles en este momento.</p>
+  </ng-template>
+</div>
+
+<div *ngIf="cargando" class="text-center mt-5 text-secondary">
+  Cargando negocio...
+</div>
