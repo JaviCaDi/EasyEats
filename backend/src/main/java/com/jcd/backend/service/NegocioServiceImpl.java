@@ -36,7 +36,6 @@ public class NegocioServiceImpl implements NegocioService {
 
     @Override
     public Negocio crearNegocio(Negocio negocio) {
-        // Simplemente guardamos el negocio sin usuario
         return negocioRepository.save(negocio);
     }
 

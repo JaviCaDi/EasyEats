@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NegocioService } from '../../core/services/negocio.service';
 import { PackService } from '../../core/services/pack.service';
+import ColorThief from 'colorthief';
 
 @Component({
   selector: 'app-detalle-negocio',
@@ -15,6 +16,7 @@ export class DetalleNegocioComponent implements OnInit {
   negocio: any;
   packs: any[] = [];
   cargando = true;
+  colorFondo: string = '#cccccc';
 
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +31,18 @@ export class DetalleNegocioComponent implements OnInit {
       next: (data) => {
         this.negocio = data;
         this.cargarPacks(id);
+
+        if (data.imagenUrl) {
+          const img = new Image();
+          img.crossOrigin = 'Anonymous';
+          img.src = 'http://localhost:8080' + data.imagenUrl;
+
+          img.onload = () => {
+            const colorThief = new ColorThief();
+            const color = colorThief.getColor(img);
+            this.colorFondo = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+          };
+        }
       },
       error: (err) => {
         console.error('Error al cargar negocio', err);
@@ -40,7 +54,8 @@ export class DetalleNegocioComponent implements OnInit {
   private cargarPacks(negocioId: number): void {
     this.packService.getPacksByNegocio(negocioId).subscribe({
       next: (data) => {
-        this.packs = data;
+        // Filtramos solo los packs activos
+        this.packs = data.filter((pack: any) => pack.activo);
         this.cargando = false;
       },
       error: (err) => {
@@ -48,5 +63,13 @@ export class DetalleNegocioComponent implements OnInit {
         this.cargando = false;
       }
     });
+  }
+
+  // Función para mostrar mensaje según cantidad
+  getMensajeCantidad(pack: any): string {
+    if (pack.cantidad === 0) return 'Agotado';
+    if (pack.cantidad === 1) return 'Última unidad';
+    if (pack.cantidad <= 5) return 'Pocas unidades disponibles';
+    return '';
   }
 }

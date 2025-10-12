@@ -12,3 +12,48 @@
   object-fit: cover;
   border: 4px solid white;
 }
+
+.text-primary {
+  --bs-text-opacity: 1;
+  color: #426b58 !important;
+}
+
+.pack-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  min-height: 320px; /* tamaño uniforme */
+}
+
+.pack-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.pack-header {
+  position: relative;
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.pack-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.pack-card:hover .pack-img {
+  transform: scale(1.05);
+}
+
+.stock-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 0.5rem 0.9rem;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}

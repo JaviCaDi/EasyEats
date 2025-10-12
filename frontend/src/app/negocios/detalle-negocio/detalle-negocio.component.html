@@ -1,37 +1,54 @@
 <div class="container mt-5" *ngIf="!cargando && negocio">
-  <div class="card shadow-sm mb-4">
-    <!-- Cabecera personalizada -->
-    <div class="negocio-header d-flex align-items-center p-3" style="background-color: #4a90e2;">
+  <div class="card shadow-sm mb-4 border-0">
+    <!-- Cabecera con degradado y color dominante -->
+    <div class="negocio-header d-flex align-items-center p-4"
+         [ngStyle]="{'background': 'linear-gradient(to right, ' + colorFondo + ', #ffffff80)'}">
       <img *ngIf="negocio.imagenUrl"
            [src]="'http://localhost:8080' + negocio.imagenUrl"
-           class="negocio-img rounded-circle"
+           class="negocio-img rounded-circle shadow"
            alt="{{ negocio.nombre }}">
-      <h3 class="ms-3 text-white fw-bold">{{ negocio.nombre }}</h3>
+      <h3 class="ms-4 text-white fw-bold negocio-nombre">{{ negocio.nombre }}</h3>
     </div>
 
-    <div class="card-body">
-      <p class="card-text">{{ negocio.descripcion }}</p>
+    <div class="card-body p-4">
+      <p class="card-text text-muted">{{ negocio.descripcion }}</p>
       <p><strong>Dirección:</strong> {{ negocio.direccion }}</p>
       <p><strong>Horario:</strong> {{ negocio.horario }}</p>
     </div>
   </div>
 
-  <h4>Packs disponibles</h4>
+  <h4 class="mb-3">Packs disponibles</h4>
   <div *ngIf="packs.length > 0; else noPacks" class="row">
-    <div class="col-md-4 mb-3" *ngFor="let pack of packs">
-      <div class="card h-100 shadow-sm">
-        <!-- Imagen del pack -->
-        <img *ngIf="pack.imagenUrl"
-             [src]="'http://localhost:8080' + pack.imagenUrl"
-             class="card-img-top"
-             alt="{{ pack.nombre }}"
-             style="max-height: 200px; object-fit: cover;">
+    <div class="col-md-4 mb-4" *ngFor="let pack of packs">
+      <div class="card h-100 shadow-sm pack-card">
+        <!-- Imagen + badge -->
+        <div class="position-relative pack-header">
+          <img *ngIf="pack.imagenUrl"
+               [src]="'http://localhost:8080' + pack.imagenUrl"
+               class="card-img-top pack-img"
+               alt="{{ pack.titulo }}">
 
-        <div class="card-body">
-          <h5 class="card-title">{{ pack.nombre }}</h5>
-          <p class="card-text">{{ pack.descripcion }}</p>
-          <p><strong>{{ pack.precio }} €</strong></p>
-          <a [routerLink]="['/packs', pack.id]" class="btn btn-primary">Ver pack</a>
+          <!-- Badge de stock -->
+          <span *ngIf="getMensajeCantidad(pack)"
+                class="stock-badge"
+                [ngClass]="{
+                  'bg-danger': pack.cantidad === 0,
+                  'bg-warning text-dark': pack.cantidad > 0 && pack.cantidad <= 5,
+                  'bg-success': pack.cantidad > 5
+                }">
+            {{ getMensajeCantidad(pack) }}
+          </span>
+        </div>
+
+        <!-- Cuerpo de la tarjeta -->
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ pack.titulo }}</h5>
+
+          <!-- Precio a la derecha -->
+          <div class="mt-auto d-flex justify-content-between align-items-center">
+            <a [routerLink]="['/packs', pack.id]" class="btn btn-primary">Ver pack</a>
+            <span class="fw-bold text-primary fs-5">{{ pack.precio }} €</span>
+          </div>
         </div>
       </div>
     </div>

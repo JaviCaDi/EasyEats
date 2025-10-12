@@ -36,13 +36,11 @@ public class NegocioController {
         return ResponseEntity.ok(nuevoNegocio);
     }
 
-    // 🔹 Nuevo: listar todos los negocios
     @GetMapping
     public ResponseEntity<List<Negocio>> listarNegocios() {
         return ResponseEntity.ok(negocioService.listarNegocios());
     }
 
-    // 🔹 Nuevo: obtener negocio por id
     @GetMapping("/{id}")
     public ResponseEntity<Negocio> obtenerNegocio(@PathVariable Long id) {
         return ResponseEntity.of(negocioService.obtenerPorId(id));

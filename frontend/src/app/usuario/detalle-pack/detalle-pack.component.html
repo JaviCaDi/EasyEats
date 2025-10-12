@@ -1,1 +1,42 @@
-<p>detalle-pack works!</p>
+<div class="container mt-5" *ngIf="!cargando && pack">
+  <div class="card pack-card shadow-sm border-0 mx-auto" style="max-width: 700px;">
+    
+    <!-- Imagen con badge flotante -->
+    <div class="pack-header position-relative">
+      <img *ngIf="pack.imagenUrl"
+           [src]="'http://localhost:8080' + pack.imagenUrl"
+           class="pack-img w-100"
+           alt="{{ pack.titulo }}">
+
+      <!-- Badge flotante en la imagen -->
+      <span *ngIf="getMensajeCantidad(pack)"
+            class="badge stock-badge"
+            [ngClass]="{
+              'bg-danger': pack.cantidad === 0,
+              'bg-warning text-dark': pack.cantidad > 0 && pack.cantidad <= 5,
+              'bg-success': pack.cantidad > 5
+            }">
+        {{ getMensajeCantidad(pack) }}
+      </span>
+    </div>
+
+    <div class="card-body">
+      <h2 class="pack-nombre fw-bold">{{ pack.titulo }}</h2>
+      <p class="text-muted mb-3">{{ pack.descripcion }}</p>
+
+      <!-- Precio + Botón -->
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <span class="fw-bold fs-3 text-primary">{{ pack.precio }} €</span>
+        <button [routerLink]="['/reserva', pack.id]"
+                class="btn btn-primary btn-lg"
+                [disabled]="pack.cantidad === 0">
+          Reservar ahora
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="cargando" class="text-center mt-5 text-secondary">
+  Cargando pack...
+</div>

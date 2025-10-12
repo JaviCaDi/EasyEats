@@ -27,14 +27,12 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Actualizar usuario (ej: campos generales)
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
         Usuario actualizado = usuarioService.actualizarUsuario(id, usuario);
         return ResponseEntity.ok(actualizado);
     }
 
-    // ✅ Nuevo endpoint para asignar un negocio
     @PutMapping("/{usuarioId}/negocio/{negocioId}")
     public ResponseEntity<Usuario> asignarNegocio(
             @PathVariable Long usuarioId,

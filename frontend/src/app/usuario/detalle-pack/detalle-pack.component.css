@@ -1,0 +1,73 @@
+.pack-card {
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-height: 480px;   /* 👈 altura mínima predeterminada */
+  display: flex;
+  flex-direction: column;
+}
+
+.pack-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.pack-header {
+  height: 250px; /* 👈 altura fija para la imagen */
+  overflow: hidden;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  position: relative;
+}
+
+.pack-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.pack-card:hover .pack-img {
+  transform: scale(1.05);
+}
+
+.stock-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 0.9rem;
+  padding: 0.6rem 1rem;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.card-body {
+  flex: 1; /* 👈 hace que la descripción crezca sin deformar el layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+}
+
+.pack-nombre {
+  font-size: 2rem;
+  color: #222;
+}
+
+.btn-primary {
+  background-color: #11a056;
+  border-color: #11a056;
+  transition: background-color 0.3s, transform 0.2s;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  margin-top: auto; /* 👈 empuja el botón al final */
+}
+.btn-primary:hover:enabled {
+  background-color: #71b178;
+  transform: translateY(-2px);
+}
+.btn-primary:disabled {
+  background-color: #aaa;
+  border-color: #aaa;
+  cursor: not-allowed;
+  transform: none;
+}

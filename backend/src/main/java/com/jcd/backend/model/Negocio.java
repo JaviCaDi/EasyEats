@@ -27,5 +27,5 @@ public class Negocio {
     private String imagenUrl;
 
     @Transient
-    private MultipartFile imagen; // Para recibir la imagen desde Angular
+    private MultipartFile imagen;
 }

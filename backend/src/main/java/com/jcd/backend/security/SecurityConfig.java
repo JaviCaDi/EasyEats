@@ -37,10 +37,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/usuario/*/negocio/*").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // Packs: ver → cualquier autenticado
+                        // Packs: ver cualquier autenticado
                         .requestMatchers(HttpMethod.GET, "/api/packs/**").authenticated()
 
-                        // Packs: crear/editar/borrar → solo BUSINESS
+                        // Packs: crear/editar/borrar solo BUSINESS
                         .requestMatchers(HttpMethod.POST, "/api/packs/**").hasRole("BUSINESS")
                         .requestMatchers(HttpMethod.PUT, "/api/packs/**").hasRole("BUSINESS")
                         .requestMatchers(HttpMethod.DELETE, "/api/packs/**").hasRole("BUSINESS")
