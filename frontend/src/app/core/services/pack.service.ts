@@ -12,7 +12,7 @@ export class PackService {
   constructor(
     private http: HttpClient,
     private authService: AuthService
-  ) {}
+  ) { }
 
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.getToken();
@@ -52,6 +52,34 @@ export class PackService {
   // Eliminar pack
   eliminarPack(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  // Obtener packs con cantidad disponible actual (desde packs_disponibles)
+  getPacksDisponiblesByNegocio(negocioId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/negocio/${negocioId}/disponibles`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  // Obtener un pack por id con cantidad disponible actual
+  getPackDisponibleById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}/disponible`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  // Obtener horarios de un pack
+  getHorariosByPackId(packId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${packId}/horarios`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  // Actualizar horarios de un pack
+  actualizarHorarios(packId: number, horarios: { horaInicio: string, horaFin: string }[]): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${packId}/horarios`, horarios, {
       headers: this.getAuthHeaders()
     });
   }

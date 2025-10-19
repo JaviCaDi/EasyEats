@@ -1,0 +1,33 @@
+<!-- src/app/features/cartera/cartera.component.html -->
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 p-4 mx-auto" style="max-width: 500px;">
+    <h2 class="text-center mb-4">💳 Mi Cartera</h2>
+
+    <div *ngIf="cargando" class="text-center text-secondary">
+      Cargando saldo...
+    </div>
+
+    <div *ngIf="!cargando">
+      <h3 class="text-center text-success mb-3">
+        Saldo actual: {{ saldo | currency:'EUR' }}
+      </h3>
+
+      <div class="input-group mb-3">
+        <input
+          type="number"
+          min="1"
+          class="form-control"
+          [(ngModel)]="cantidadAgregar"
+          placeholder="Cantidad a añadir (€)"
+        />
+        <button
+          class="btn btn-primary"
+          (click)="agregarDinero()"
+          [disabled]="cantidadAgregar <= 0"
+        >
+          ➕ Añadir
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

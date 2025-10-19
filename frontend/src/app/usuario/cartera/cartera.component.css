@@ -1,0 +1,16 @@
+/* src/app/features/cartera/cartera.component.css */
+.container {
+  text-align: center;
+}
+
+.card {
+  border-radius: 16px;
+}
+
+button {
+  font-weight: bold;
+}
+
+input {
+  text-align: right;
+}

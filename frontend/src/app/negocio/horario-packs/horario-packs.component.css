@@ -1,0 +1,17 @@
+.container {
+  max-width: 800px;
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+.horario-row label {
+  font-weight: 600;
+}
+
+input[type="time"] {
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  padding: 0.4rem;
+}

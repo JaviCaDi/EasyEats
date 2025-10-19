@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jcd.backend.model.HorarioPack;
 import com.jcd.backend.model.Pack;
 import com.jcd.backend.service.PackService;
 
@@ -60,6 +61,32 @@ public class PackController {
     public ResponseEntity<Pack> obtenerPackPorId(@PathVariable Long id) {
         Pack pack = packService.obtenerPackPorId(id);
         return ResponseEntity.ok(pack);
+    }
+
+    // ✅ Obtener los packs de un negocio con su cantidad disponible actual
+    @GetMapping("/negocio/{negocioId}/disponibles")
+    public ResponseEntity<List<Pack>> listarPacksDisponiblesPorNegocio(@PathVariable Long negocioId) {
+        return ResponseEntity.ok(packService.listarPacksDisponiblesPorNegocio(negocioId));
+    }
+
+    @GetMapping("/{id}/disponible")
+    public ResponseEntity<Pack> obtenerPackDisponible(@PathVariable Long id) {
+        return ResponseEntity.ok(packService.obtenerPackDisponiblePorId(id));
+    }
+
+    // 🔹 Obtener los horarios de un pack
+    @GetMapping("/{packId}/horarios")
+    public ResponseEntity<List<HorarioPack>> obtenerHorariosPorPack(@PathVariable Long packId) {
+        return ResponseEntity.ok(packService.obtenerHorariosPorPack(packId));
+    }
+
+    // 🔹 Actualizar los horarios de un pack
+    @PutMapping("/{packId}/horarios")
+    public ResponseEntity<Void> actualizarHorariosPorPack(
+            @PathVariable Long packId,
+            @RequestBody List<HorarioPack> horarios) {
+        packService.actualizarHorariosPorPack(packId, horarios);
+        return ResponseEntity.ok().build();
     }
 
 }

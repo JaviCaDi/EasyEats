@@ -1,3 +1,4 @@
+// detalle-pack.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -21,7 +22,9 @@ export class DetallePackComponent implements OnInit {
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.packService.getPackById(id).subscribe({
+
+    // 🔹 Usamos el nuevo método que devuelve cantidad disponible
+    this.packService.getPackDisponibleById(id).subscribe({
       next: (data) => {
         this.pack = data;
         this.cargando = false;

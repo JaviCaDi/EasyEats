@@ -1,0 +1,36 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">🕒 Horarios de Packs</h2>
+
+  <div *ngIf="cargando" class="text-center text-secondary">Cargando packs...</div>
+
+  <div *ngIf="!cargando && packs.length === 0" class="text-center text-muted">
+    No tienes packs registrados todavía.
+  </div>
+
+  <div *ngIf="!cargando" class="packs-list">
+    <div *ngFor="let pack of packs" class="card mb-4 shadow-sm border-0">
+      <div class="card-body">
+        <h4 class="fw-bold">{{ pack.titulo }}</h4>
+        <p class="text-muted">{{ pack.descripcion }}</p>
+
+        <div *ngFor="let horario of horarios[pack.id]; let i = index" class="horario-row mb-2">
+          <label>Inicio:</label>
+          <input type="time" [(ngModel)]="horario.horaInicio" class="form-control d-inline w-auto mx-2" />
+          <label>Fin:</label>
+          <input type="time" [(ngModel)]="horario.horaFin" class="form-control d-inline w-auto mx-2" />
+          <button class="btn btn-outline-danger btn-sm" (click)="eliminarHorario(pack.id, i)">🗑️</button>
+        </div>
+
+        <button class="btn btn-outline-primary btn-sm mt-2" (click)="agregarHorario(pack.id)">
+          ➕ Añadir horario
+        </button>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <button class="btn btn-success btn-lg" [disabled]="guardando" (click)="guardarHorarios()">
+        💾 {{ guardando ? 'Guardando...' : 'Guardar todos los horarios' }}
+      </button>
+    </div>
+  </div>
+</div>

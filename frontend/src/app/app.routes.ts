@@ -29,6 +29,9 @@ import { RegisterComercioComponent } from './auth/register-comercio/register-com
 import { RegistroExitosoComponent } from './auth/registro-exitoso/registro-exitoso.component';
 import { ListarNegociosComponent } from './negocios/listar-negocios/listar-negocios.component';
 import { DetalleNegocioComponent } from './negocios/detalle-negocio/detalle-negocio.component';
+import { HorarioPacksComponent } from './negocio/horario-packs/horario-packs.component';
+
+import { CarteraComponent } from './usuario/cartera/cartera.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'packs', pathMatch: 'full' },
@@ -49,6 +52,7 @@ export const routes: Routes = [
   { path: 'perfil', component: PerfilUsuarioComponent },
   { path: 'valorar/:id', component: ValorarComponent },
   { path: 'qr/:codigo', component: QrComponent },
+  { path: 'cartera', component: CarteraComponent }, // 👈 NUEVA RUTA
 
   // Negocio
   { path: 'negocio/crear-pack', component: CrearPackComponent },
@@ -58,17 +62,17 @@ export const routes: Routes = [
   { path: 'negocio/validar-qr', component: ValidarQrComponent },
   { path: 'negocio/estadisticas', component: EstadisticasNegocioComponent },
   { path: 'negocio/perfil', component: PerfilNegocioComponent },
+  { path: 'negocio/horario-packs', component: HorarioPacksComponent },
 
   // Negocios
   { path: 'negocios', component: ListarNegociosComponent },
   { path: 'negocio/:id', component: DetalleNegocioComponent },
-  
-  // Admin (opcional)
+
+  // Admin
   { path: 'admin', component: PanelAdminComponent },
   { path: 'admin/usuarios', component: UsuariosComponent },
   { path: 'admin/reportes', component: ReportesComponent },
   { path: 'admin/estadisticas', component: EstadisticasGeneralesComponent },
 
-  // Fallback
   { path: '**', redirectTo: 'packs' },
 ];

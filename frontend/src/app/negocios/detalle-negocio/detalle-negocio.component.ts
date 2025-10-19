@@ -22,7 +22,7 @@ export class DetalleNegocioComponent implements OnInit {
     private route: ActivatedRoute,
     private negocioService: NegocioService,
     private packService: PackService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -52,18 +52,18 @@ export class DetalleNegocioComponent implements OnInit {
   }
 
   private cargarPacks(negocioId: number): void {
-    this.packService.getPacksByNegocio(negocioId).subscribe({
+    this.packService.getPacksDisponiblesByNegocio(negocioId).subscribe({
       next: (data) => {
-        // Filtramos solo los packs activos
         this.packs = data.filter((pack: any) => pack.activo);
         this.cargando = false;
       },
       error: (err) => {
-        console.error('Error al cargar packs', err);
+        console.error('Error al cargar packs disponibles', err);
         this.cargando = false;
       }
     });
   }
+
 
   // Función para mostrar mensaje según cantidad
   getMensajeCantidad(pack: any): string {
