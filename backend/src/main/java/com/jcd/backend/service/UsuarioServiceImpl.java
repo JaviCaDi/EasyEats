@@ -20,7 +20,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Usuario actualizarUsuario(Long id, Usuario usuario) {
         return usuarioRepository.findById(id).map(u -> {
-            // solo actualizamos los campos que vengan
             if (usuario.getNegocio() != null) {
                 u.setNegocio(usuario.getNegocio());
             }
@@ -36,6 +35,9 @@ public class UsuarioServiceImpl implements UsuarioService {
             if (usuario.getTelefono() != null) {
                 u.setTelefono(usuario.getTelefono());
             }
+            if (usuario.getSaldo() != null) { // ✅ actualizar saldo si se envía
+                u.setSaldo(usuario.getSaldo());
+            }
             return usuarioRepository.save(u);
         }).orElseThrow(() -> new RuntimeException("Usuario no encontrado con id " + id));
     }
@@ -49,6 +51,15 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .orElseThrow(() -> new RuntimeException("Negocio no encontrado con id " + negocioId));
 
         usuario.setNegocio(negocio);
+        return usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public Usuario agregarSaldo(Long id, Double cantidad) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id " + id));
+
+        usuario.setSaldo(usuario.getSaldo() + cantidad);
         return usuarioRepository.save(usuario);
     }
 }

@@ -47,12 +47,12 @@ export const routes: Routes = [
   // Usuario
   { path: 'packs', component: ListaPacksComponent },
   { path: 'packs/:id', component: DetallePackComponent },
-  { path: 'reservar/:id', component: ReservaComponent },
+  { path: 'reserva/:id', component: ReservaComponent },
   { path: 'mis-reservas', component: MisReservasComponent },
   { path: 'perfil', component: PerfilUsuarioComponent },
   { path: 'valorar/:id', component: ValorarComponent },
   { path: 'qr/:codigo', component: QrComponent },
-  { path: 'cartera', component: CarteraComponent }, // 👈 NUEVA RUTA
+  { path: 'cartera', component: CarteraComponent },
 
   // Negocio
   { path: 'negocio/crear-pack', component: CrearPackComponent },

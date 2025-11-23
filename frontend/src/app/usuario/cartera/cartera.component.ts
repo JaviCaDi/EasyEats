@@ -1,9 +1,8 @@
-// src/app/features/cartera/cartera.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CarteraService } from '../../core/services/cartera.service';
-import { AuthService, Usuario } from '../../core/services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-cartera',
@@ -36,9 +35,10 @@ export class CarteraComponent implements OnInit {
 
   obtenerSaldo(): void {
     if (!this.userId) return;
+
     this.carteraService.getSaldo(this.userId).subscribe({
-      next: (saldo) => {
-        this.saldo = saldo;
+      next: (saldo: number) => {
+        this.saldo = saldo ?? 0;
         this.cargando = false;
       },
       error: (err) => {
@@ -52,8 +52,15 @@ export class CarteraComponent implements OnInit {
     if (this.cantidadAgregar <= 0 || !this.userId) return;
 
     this.carteraService.agregarDinero(this.userId, this.cantidadAgregar).subscribe({
-      next: (nuevoSaldo) => {
-        this.saldo = nuevoSaldo;
+      next: (nuevoSaldo: any) => {
+        // Si el backend devuelve solo el número, lo usamos directamente
+        // Si devuelve un objeto, tomamos la propiedad "nuevoSaldo"
+        const saldoActualizado =
+          typeof nuevoSaldo === 'number'
+            ? nuevoSaldo
+            : Number(nuevoSaldo?.nuevoSaldo ?? this.saldo);
+
+        this.saldo = saldoActualizado;
         this.cantidadAgregar = 0;
         alert('✅ Dinero agregado correctamente');
       },

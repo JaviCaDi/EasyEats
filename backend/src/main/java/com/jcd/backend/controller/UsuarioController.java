@@ -27,12 +27,14 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // Actualizar datos generales del usuario
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
         Usuario actualizado = usuarioService.actualizarUsuario(id, usuario);
         return ResponseEntity.ok(actualizado);
     }
 
+    // Asignar un negocio a un usuario
     @PutMapping("/{usuarioId}/negocio/{negocioId}")
     public ResponseEntity<Usuario> asignarNegocio(
             @PathVariable Long usuarioId,
@@ -40,5 +42,23 @@ public class UsuarioController {
 
         Usuario usuario = usuarioService.asignarNegocio(usuarioId, negocioId);
         return ResponseEntity.ok(usuario);
+    }
+
+    // 💰 Obtener saldo del usuario
+    @GetMapping("/{id}/saldo")
+    public ResponseEntity<Double> getSaldo(@PathVariable Long id) {
+        return usuarioRepository.findById(id)
+                .map(usuario -> ResponseEntity.ok(usuario.getSaldo()))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // 💰 Añadir dinero al saldo (simulación)
+    @PutMapping("/{id}/saldo")
+    public ResponseEntity<Usuario> agregarSaldo(
+            @PathVariable Long id,
+            @RequestParam Double cantidad) {
+
+        Usuario actualizado = usuarioService.agregarSaldo(id, cantidad);
+        return ResponseEntity.ok(actualizado);
     }
 }

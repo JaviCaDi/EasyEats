@@ -1,1 +1,54 @@
-<p>reserva works!</p>
+<div class="container mt-5" *ngIf="!cargando && pack; else cargandoTpl">
+  <div class="card shadow-lg border-0 mx-auto p-4" style="max-width: 600px;">
+    <h2 class="text-center mb-4">🛒 Confirmar Reserva</h2>
+
+    <div class="text-center mb-3">
+      <img
+        *ngIf="pack.imagenUrl"
+        [src]="'http://localhost:8080' + pack.imagenUrl"
+        class="img-fluid rounded"
+        style="max-height: 250px; object-fit: cover;"
+      />
+    </div>
+
+    <h3 class="fw-bold text-center">{{ pack.titulo }}</h3>
+    <p class="text-muted text-center">{{ pack.descripcion }}</p>
+
+    <div class="d-flex justify-content-between align-items-center mt-4">
+      <span class="fs-5 fw-semibold">💰 Precio: {{ pack.precio }} €</span>
+      <span class="fs-5 fw-semibold">💳 Tu saldo: {{ saldo | currency:'EUR' }}</span>
+    </div>
+
+    <div class="text-center mt-4">
+      <button
+        class="btn btn-success btn-lg"
+        (click)="confirmarReserva()"
+        [disabled]="!puedeReservar()"
+      >
+        Confirmar reserva
+      </button>
+
+      <button
+        *ngIf="!puedeReservar()"
+        class="btn btn-outline-primary ms-2"
+        [routerLink]="['/cartera']"
+      >
+        💵 Añadir dinero
+      </button>
+    </div>
+
+    <div *ngIf="!puedeReservar()" class="text-danger text-center mt-3">
+      No tienes suficiente saldo para completar esta reserva.
+    </div>
+  </div>
+</div>
+
+<ng-template #cargandoTpl>
+  <div class="text-center mt-5 text-secondary">
+    Cargando reserva...
+  </div>
+</ng-template>
+
+<div *ngIf="error" class="alert alert-danger text-center mt-3">
+  {{ error }}
+</div>

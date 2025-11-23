@@ -33,13 +33,17 @@ public class Usuario implements UserDetails {
 
     private String telefono;
 
+    // 💰 Nuevo campo: saldo del usuario (monedero)
+    @Column(nullable = false)
+    private Double saldo = 0.0;
+
     @ManyToOne
     @JoinColumn(name = "rol_id", nullable = false)
     private Rol rol;
 
     @OneToOne
     @JoinColumn(name = "negocio_id", referencedColumnName = "id")
-    private Negocio negocio; // ✅ relación con negocio
+    private Negocio negocio;
 
     // =========================
     // UserDetails
@@ -56,7 +60,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email; // ✅ mejor autenticar por email
+        return this.email;
     }
 
     @Override
