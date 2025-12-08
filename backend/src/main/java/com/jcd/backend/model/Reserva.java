@@ -12,11 +12,24 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long usuarioId;
-    private Long packId;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "pack_id")
+    private Pack pack;
+
     private Double precioPagado;
 
     private LocalDateTime fechaReserva;
 
+    private LocalDateTime fechaLimiteRecogida;
+
     private String codigoQr;
+
+    private boolean recogido = false;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoReserva estado = EstadoReserva.RESERVADA;
 }

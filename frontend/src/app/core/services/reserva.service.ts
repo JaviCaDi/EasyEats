@@ -10,7 +10,7 @@ export class ReservaService {
 
   private apiUrl = 'http://localhost:8080/api/reservas';
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.getToken();
@@ -37,4 +37,13 @@ export class ReservaService {
       { headers: this.getAuthHeaders() }
     );
   }
+
+  // Validar reserva por QR
+  validarReserva(codigoQr: string): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/validar/${codigoQr}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
 }

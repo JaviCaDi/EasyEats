@@ -1,1 +1,19 @@
-<p>validar-qr works!</p>
+<div class="container mt-5 text-center">
+
+  <h2>📋 Validar reserva por QR</h2>
+  <p>Pega el código QR que te dio el cliente</p>
+
+  <div class="mb-3">
+    <input type="text" class="form-control" placeholder="Código QR" [(ngModel)]="codigoQr">
+  </div>
+
+  <button class="btn btn-primary me-2" (click)="validarReserva()">Validar QR</button>
+  <button class="btn btn-secondary" (click)="reiniciar()">Limpiar</button>
+
+  <div *ngIf="mensaje" class="mt-3">
+    <p [ngClass]="{'text-success': mensaje.includes('✅'), 'text-danger': mensaje.includes('❌')}">
+      {{ mensaje }}
+    </p>
+  </div>
+
+</div>

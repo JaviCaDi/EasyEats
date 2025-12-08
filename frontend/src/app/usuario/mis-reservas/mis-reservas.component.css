@@ -1,0 +1,15 @@
+.reserva-img {
+  width: 150px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.qr-img {
+  width: 120px;
+  height: 120px;
+}
+
+.reserva-card {
+  border-radius: 12px;
+}

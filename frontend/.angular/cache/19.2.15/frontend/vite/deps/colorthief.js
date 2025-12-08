@@ -1,4 +1,4 @@
-import "./chunk-3OV72XIM.js";
+import "./chunk-TXDUYLVM.js";
 
 // node_modules/colorthief/dist/color-thief.mjs
 var t = function(t2, r2) {
