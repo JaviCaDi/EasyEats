@@ -59,7 +59,7 @@ public class ReservaServiceImpl implements ReservaService {
         reserva.setEstado(EstadoReserva.RESERVADA);
 
         return reservaRepository.save(reserva);
-        //QUE SEA CON TRANSACCIONES
+        // QUE SEA CON TRANSACCIONES
     }
 
     @Override
@@ -81,4 +81,20 @@ public class ReservaServiceImpl implements ReservaService {
 
         return reservaRepository.save(reserva);
     }
+
+    @Override
+    public List<Reserva> obtenerReservasDeComercio(Long comercioId) {
+        return reservaRepository.findByPack_Negocio_Id(comercioId);
+    }
+
+    @Override
+    public List<Reserva> obtenerPendientesDeComercio(Long comercioId) {
+        return reservaRepository.findByPack_Negocio_IdAndEstado(comercioId, EstadoReserva.RESERVADA);
+    }
+
+    @Override
+    public List<Reserva> obtenerRecogidasDeComercio(Long comercioId) {
+        return reservaRepository.findByPack_Negocio_IdAndEstado(comercioId, EstadoReserva.RECOGIDA);
+    }
+
 }

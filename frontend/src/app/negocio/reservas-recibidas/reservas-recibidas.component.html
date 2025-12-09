@@ -1,1 +1,43 @@
-<p>reservas-recibidas works!</p>
+<div class="container mt-4">
+
+  <h2 class="text-center mb-4">📦 Reservas Recibidas</h2>
+
+  <!-- PENDIENTES -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-warning text-dark fw-bold">
+      Pendientes de recoger
+    </div>
+
+    <div *ngIf="pendientes.length === 0" class="p-3 text-center text-muted">
+      No hay reservas pendientes.
+    </div>
+
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let r of pendientes" class="list-group-item">
+        <div class="fw-bold">{{ r.pack.titulo }}</div>
+        <div>Cliente: {{ r.usuario.nombre }}</div>
+        <div>Fecha: {{ r.fechaReserva | date:'short' }}</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- RECOGIDAS -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-success text-white fw-bold">
+      Recogidas
+    </div>
+
+    <div *ngIf="recogidas.length === 0" class="p-3 text-center text-muted">
+      No hay reservas recogidas.
+    </div>
+
+    <ul class="list-group list-group-flush">
+      <li *ngFor="let r of recogidas" class="list-group-item">
+        <div class="fw-bold">{{ r.pack.titulo }}</div>
+        <div>Cliente: {{ r.usuario.nombre }}</div>
+        <div>Recogido el: {{ r.fechaReserva | date:'short' }}</div>
+      </li>
+    </ul>
+  </div>
+
+</div>

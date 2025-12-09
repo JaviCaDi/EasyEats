@@ -19,7 +19,7 @@ export class ReservaService {
     });
   }
 
-  // Crear reserva real en BD
+  // Crear reserva en backend
   hacerReserva(packId: number): Observable<any> {
     const userId = this.authService.getUserId();
     return this.http.post(
@@ -38,10 +38,34 @@ export class ReservaService {
     );
   }
 
-  // Validar reserva por QR
+  // Validar QR
   validarReserva(codigoQr: string): Observable<any> {
     return this.http.get(
       `${this.apiUrl}/validar/${codigoQr}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  // Obtener todas las reservas de un negocio
+  getReservasNegocio(negocioId: number): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/negocio/${negocioId}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  // Reservas pendientes
+  getPendientesNegocio(negocioId: number): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/negocio/${negocioId}/pendientes`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  // Reservas recogidas
+  getRecogidasNegocio(negocioId: number): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/negocio/${negocioId}/recogidas`,
       { headers: this.getAuthHeaders() }
     );
   }

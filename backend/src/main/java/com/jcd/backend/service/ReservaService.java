@@ -11,4 +11,11 @@ public interface ReservaService {
 
     // Nuevo método para validar QR
     Reserva validarCodigoQr(String codigoQr);
+
+    List<Reserva> obtenerReservasDeComercio(Long comercioId);
+
+    List<Reserva> obtenerPendientesDeComercio(Long comercioId);
+
+    List<Reserva> obtenerRecogidasDeComercio(Long comercioId);
+
 }

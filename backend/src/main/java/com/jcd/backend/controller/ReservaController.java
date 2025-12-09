@@ -40,4 +40,20 @@ public class ReservaController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/negocio/{negocioId}")
+    public List<Reserva> reservasDeNegocio(@PathVariable Long negocioId) {
+        return reservaService.obtenerReservasDeComercio(negocioId);
+    }
+
+    @GetMapping("/negocio/{negocioId}/pendientes")
+    public List<Reserva> reservasPendientes(@PathVariable Long negocioId) {
+        return reservaService.obtenerPendientesDeComercio(negocioId);
+    }
+
+    @GetMapping("/negocio/{negocioId}/recogidas")
+    public List<Reserva> reservasRecogidas(@PathVariable Long negocioId) {
+        return reservaService.obtenerRecogidasDeComercio(negocioId);
+    }
+
 }
