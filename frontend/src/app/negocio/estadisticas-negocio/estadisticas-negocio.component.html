@@ -1,1 +1,70 @@
-<p>estadisticas-negocio works!</p>
+<div id="contenedor-pdf" class="dashboard-container">
+
+  <h2 class="dashboard-title">📊 Estadísticas del Negocio</h2>
+
+  <!-- TARJETAS -->
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <h4>Total Reservas</h4>
+      <p class="stat-value">{{ totalReservas }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h4>Ingresos Hoy</h4>
+      <p class="stat-value">{{ ingresosHoy }} €</p>
+    </div>
+
+    <div class="stat-card">
+      <h4>Ingresos Totales</h4>
+      <p class="stat-value">{{ ingresosTotales }} €</p>
+    </div>
+
+    <div class="stat-card">
+      <h4>Promedio Diario</h4>
+      <p class="stat-value">{{ promedioReservas }}</p>
+    </div>
+
+  </div>
+
+  <!-- SECCIÓN DE INFORMACIÓN -->
+  <div class="info-grid">
+
+    <div class="info-card">
+      <h3>Cliente más popular</h3>
+      <p *ngIf="clientePopular">
+        👤 {{ clientePopular.nombre }}  
+        <br>📦 {{ clientePopular.reservas }} reservas
+      </p>
+    </div>
+
+    <div class="info-card">
+      <h3>Reserva más reciente</h3>
+      <p *ngIf="reservaReciente">
+        🗓 {{ reservaReciente.fecha }}  
+        <br>👤 {{ reservaReciente.cliente }}
+        <br>📦 {{ reservaReciente.pack }}
+      </p>
+    </div>
+
+    <div class="info-card full">
+      <h3>Pack con mayor ingreso</h3>
+      <p *ngIf="packMayorIngreso">
+        💼 {{ packMayorIngreso.nombre }}  
+        <br>💰 {{ packMayorIngreso.ingresos }} €
+      </p>
+      <canvas id="chartMayorIngreso"></canvas>
+    </div>
+
+  </div>
+
+  <!-- TOP PACKS -->
+  <div class="chart-card">
+    <h3>Top 5 packs más reservados</h3>
+    <canvas id="chartTopPacks"></canvas>
+  </div>
+
+</div>
+
+<!-- BOTÓN PDF -->
+<button class="btn-pdf" (click)="exportarPDF()">📄 Exportar PDF</button>
