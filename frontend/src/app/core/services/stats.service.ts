@@ -1,71 +1,57 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EstadisticasNegocioService {
 
-  constructor() { }
+  private apiUrl = 'http://localhost:8080/api/estadisticas';
 
-  getTotalReservas(id: number): Observable<number> {
-    return of(128).pipe(delay(300)); // valor simulado
+  constructor(private http: HttpClient, private authService: AuthService) { }
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
   }
 
-  getIngresosHoy(id: number): Observable<number> {
-    return of(240).pipe(delay(300)); // euros de hoy
+  getTotalReservas(negocioId: number): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/${negocioId}/total-reservas`, { headers: this.getAuthHeaders() });
   }
 
-  getIngresosTotales(id: number): Observable<number> {
-    return of(8540).pipe(delay(300));
+  getIngresosHoy(negocioId: number): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/${negocioId}/ingresos-hoy`, { headers: this.getAuthHeaders() });
   }
 
-  getTop5Packs(id: number): Observable<any[]> {
-    return of([
-      { nombre: 'Pack Familiar', reservas: 34 },
-      { nombre: 'Pack Desayuno', reservas: 28 },
-      { nombre: 'Pack Cena Romántica', reservas: 22 },
-      { nombre: 'Pack Vegano', reservas: 17 },
-      { nombre: 'Pack Infantil', reservas: 14 }
-    ]).pipe(delay(300));
+  getIngresosTotales(negocioId: number): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/${negocioId}/ingresos-totales`, { headers: this.getAuthHeaders() });
   }
 
-  getPromedioReservasDiarias(id: number): Observable<number> {
-    return of(8.7).pipe(delay(300));
+  getTop5Packs(negocioId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${negocioId}/top5packs`, { headers: this.getAuthHeaders() });
   }
 
-  getClienteMasPopular(id: number): Observable<any> {
-    return of({
-      nombre: 'Carlos Fernández',
-      reservas: 12
-    }).pipe(delay(300));
+  getPromedioReservasDiarias(negocioId: number): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/${negocioId}/promedio-reservas`, { headers: this.getAuthHeaders() });
   }
 
-  getReservaReciente(id: number): Observable<any> {
-    return of({
-      fecha: '2025-02-12 18:30',
-      cliente: 'Lucía García',
-      pack: 'Pack Cena Romántica'
-    }).pipe(delay(300));
+  getClienteMasPopular(negocioId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${negocioId}/cliente-popular`, { headers: this.getAuthHeaders() });
   }
 
-  getPackMayorIngreso(id: number): Observable<any> {
-    return of({
-      nombre: 'Pack Familiar',
-      ingresos: 2300
-    }).pipe(delay(300));
+  getReservaReciente(negocioId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${negocioId}/reserva-reciente`, { headers: this.getAuthHeaders() });
   }
 
-  getIngresosPorPack(id: number): Observable<any[]> {
-    const fake = [
-      { nombre: 'Pack A', ingresos: 120 },
-      { nombre: 'Pack B', ingresos: 350 },
-      { nombre: 'Pack C', ingresos: 90 },
-      { nombre: 'Pack D', ingresos: 190 },
-      { nombre: 'Pack E', ingresos: 260 }
-    ];
-    return of(fake);
+  getPackMayorIngreso(negocioId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${negocioId}/pack-mayoringreso`, { headers: this.getAuthHeaders() });
   }
 
+  getIngresosPorPack(negocioId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/${negocioId}/ingresos-por-pack`, { headers: this.getAuthHeaders() });
+  }
 }

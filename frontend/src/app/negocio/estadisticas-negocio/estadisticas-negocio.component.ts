@@ -1,6 +1,7 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EstadisticasNegocioService } from '../../core/services/stats.service';
+import { AuthService, Usuario } from '../../core/services/auth.service';
 import Chart from 'chart.js/auto';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -12,9 +13,9 @@ import html2canvas from 'html2canvas';
   templateUrl: './estadisticas-negocio.component.html',
   styleUrls: ['./estadisticas-negocio.component.css']
 })
-export class EstadisticasNegocioComponent implements AfterViewInit {
+export class EstadisticasNegocioComponent implements OnInit {
 
-  comercioId = 1;
+  negocioId!: number;
 
   totalReservas = 0;
   ingresosHoy = 0;
@@ -29,31 +30,53 @@ export class EstadisticasNegocioComponent implements AfterViewInit {
   chartMayorIngreso!: Chart;
   ingresosPacks: any[] = [];
 
-  constructor(private estadisticasService: EstadisticasNegocioService) { }
+  constructor(
+    private estadisticasService: EstadisticasNegocioService,
+    private authService: AuthService
+  ) { }
 
-  ngAfterViewInit(): void {
-    this.cargarEstadisticas();
+  ngOnInit(): void {
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      console.error("Usuario no logueado");
+      return;
+    }
+
+    this.authService.getUsuario(userId).subscribe({
+      next: (usuario: Usuario) => {
+        if (usuario.negocio && usuario.negocio.id) {
+          this.negocioId = usuario.negocio.id;
+          this.cargarEstadisticas();
+        } else {
+          console.error("El usuario no tiene un negocio asociado");
+        }
+      },
+      error: (err) => console.error("Error al obtener usuario:", err)
+    });
   }
 
   cargarEstadisticas() {
-    this.estadisticasService.getTotalReservas(this.comercioId).subscribe(r => this.totalReservas = r);
-    this.estadisticasService.getIngresosHoy(this.comercioId).subscribe(r => this.ingresosHoy = r);
-    this.estadisticasService.getIngresosTotales(this.comercioId).subscribe(r => this.ingresosTotales = r);
-    this.estadisticasService.getPromedioReservasDiarias(this.comercioId).subscribe(r => this.promedioReservas = r);
+    this.estadisticasService.getTotalReservas(this.negocioId).subscribe(r => this.totalReservas = r);
+    this.estadisticasService.getIngresosHoy(this.negocioId).subscribe(r => this.ingresosHoy = r);
+    this.estadisticasService.getIngresosTotales(this.negocioId).subscribe(r => this.ingresosTotales = r);
+    this.estadisticasService.getPromedioReservasDiarias(this.negocioId).subscribe(r => this.promedioReservas = r);
 
-    this.estadisticasService.getClienteMasPopular(this.comercioId).subscribe(r => this.clientePopular = r);
-    this.estadisticasService.getReservaReciente(this.comercioId).subscribe(r => this.reservaReciente = r);
+    this.estadisticasService.getClienteMasPopular(this.negocioId).subscribe(r => this.clientePopular = r);
+    this.estadisticasService.getReservaReciente(this.negocioId).subscribe(r => this.reservaReciente = r);
 
-    // Cargar ingresos por pack y generar gráfico comparativo
-    this.estadisticasService.getIngresosPorPack(this.comercioId).subscribe(data => {
-      this.ingresosPacks = data;
-      this.packMayorIngreso = data.reduce((max, actual) =>
-        actual.ingresos > max.ingresos ? actual : max
-      );
-      this.generarGraficoMayorIngreso();
+    // Obtener todos los packs con sus ingresos
+    this.estadisticasService.getIngresosPorPack(this.negocioId).subscribe(packs => {
+      this.ingresosPacks = packs;
+
+      // Obtener pack con mayor ingreso
+      this.estadisticasService.getPackMayorIngreso(this.negocioId).subscribe(p => {
+        this.packMayorIngreso = p;
+        this.generarGraficoMayorIngreso();
+      });
     });
 
-    this.estadisticasService.getTop5Packs(this.comercioId).subscribe(data => {
+    // Top 5 packs más reservados
+    this.estadisticasService.getTop5Packs(this.negocioId).subscribe(data => {
       this.generarGraficoTopPacks(data);
     });
   }
@@ -84,12 +107,9 @@ export class EstadisticasNegocioComponent implements AfterViewInit {
     const etiquetas = this.ingresosPacks.map(p => p.nombre);
     const datos = this.ingresosPacks.map(p => p.ingresos);
 
-    const colores = this.ingresosPacks.map(p => {
-      // Pack con mayor ingreso destacado en azul, otros en colores suaves
-      if (p.nombre === this.packMayorIngreso.nombre) return '#2C6EFC';
-      const paleta = ['#FF9F43', '#FF6B6B', '#1DD1A1', '#9B59B6', '#FDCB6E'];
-      return paleta[Math.floor(Math.random() * paleta.length)];
-    });
+    const colores = this.ingresosPacks.map(p => 
+      p.nombre === this.packMayorIngreso.nombre ? '#2C6EFC' : '#FFCE56'
+    );
 
     this.chartMayorIngreso = new Chart('chartMayorIngreso', {
       type: 'doughnut',
@@ -107,17 +127,13 @@ export class EstadisticasNegocioComponent implements AfterViewInit {
     });
   }
 
-
   exportarPDF() {
     const DATA: any = document.getElementById('contenedor-pdf');
-
     html2canvas(DATA).then(canvas => {
       const img = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
-
       const width = 210;
       const height = canvas.height * width / canvas.width;
-
       pdf.addImage(img, 'PNG', 0, 0, width, height);
       pdf.save('estadisticas.pdf');
     });
