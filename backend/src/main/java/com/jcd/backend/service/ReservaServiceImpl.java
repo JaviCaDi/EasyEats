@@ -7,6 +7,7 @@ import com.jcd.backend.model.EstadoReserva;
 import com.jcd.backend.repository.PackRepository;
 import com.jcd.backend.repository.ReservaRepository;
 import com.jcd.backend.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class ReservaServiceImpl implements ReservaService {
     private final UsuarioRepository usuarioRepository;
 
     @Override
+    @Transactional
     public Reserva reservar(Long usuarioId, Long packId) {
 
         Usuario usuario = usuarioRepository.findById(usuarioId)
@@ -59,7 +61,6 @@ public class ReservaServiceImpl implements ReservaService {
         reserva.setEstado(EstadoReserva.RESERVADA);
 
         return reservaRepository.save(reserva);
-        // QUE SEA CON TRANSACCIONES
     }
 
     @Override
@@ -77,7 +78,7 @@ public class ReservaServiceImpl implements ReservaService {
         }
 
         reserva.setRecogido(true);
-        reserva.setEstado(EstadoReserva.RECOGIDA); // <-- ENUM CORRECTO
+        reserva.setEstado(EstadoReserva.RECOGIDA);
 
         return reservaRepository.save(reserva);
     }
@@ -96,5 +97,4 @@ public class ReservaServiceImpl implements ReservaService {
     public List<Reserva> obtenerRecogidasDeComercio(Long comercioId) {
         return reservaRepository.findByPack_Negocio_IdAndEstado(comercioId, EstadoReserva.RECOGIDA);
     }
-
 }

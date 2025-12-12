@@ -1,1 +1,53 @@
-<p>usuarios works!</p>
+<div class="usuarios-container" *ngIf="!cargando">
+  <div class="usuarios-col">
+    <h2>Usuarios</h2>
+    <table *ngIf="usuariosUser.length > 0" class="tabla-usuarios">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of usuariosUser">
+          <td>{{ u.id }}</td>
+          <td>{{ u.nombre }}</td>
+          <td>{{ u.email }}</td>
+          <td>
+            <button (click)="eliminar(u.id)" class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="usuariosUser.length === 0">No hay usuarios con rol USER.</p>
+  </div>
+
+  <div class="usuarios-col">
+    <h2>Comerciantes</h2>
+    <table *ngIf="usuariosBusiness.length > 0" class="tabla-usuarios">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of usuariosBusiness">
+          <td>{{ u.id }}</td>
+          <td>{{ u.nombre }}</td>
+          <td>{{ u.email }}</td>
+          <td>
+            <button (click)="eliminar(u.id)" class="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="usuariosBusiness.length === 0">No hay usuarios con rol BUSINESS.</p>
+  </div>
+</div>
+
+<div *ngIf="cargando" class="loading">Cargando usuarios...</div>

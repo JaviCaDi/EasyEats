@@ -15,9 +15,6 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/mis-reservas" routerLinkActive="active">Mis reservas</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/perfil" routerLinkActive="active">Mi perfil</a>
-          </li>
         </ng-container>
 
         <!-- Negocio (BUSINESS) -->
@@ -52,13 +49,7 @@
         <!-- Admin -->
         <ng-container *ngIf="role === 'ROLE_ADMIN'">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/admin" routerLinkActive="active">Panel</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/admin/usuarios" routerLinkActive="active">Usuarios</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/admin/reportes" routerLinkActive="active">Reportes</a>
+            <a class="nav-link" routerLink="/admin/usuarios" routerLinkActive="active">Gestión de Usuarios</a>
           </li>
         </ng-container>
       </ul>

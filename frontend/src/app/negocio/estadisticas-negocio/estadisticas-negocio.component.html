@@ -21,8 +21,9 @@
     </div>
 
     <div class="stat-card">
-      <h4>Promedio Diario</h4>
-      <p class="stat-value">{{ promedioReservas }}</p>
+      <h4>Promedio diario de reservas</h4>
+      <!-- 🔥 2 decimales -->
+      <p class="stat-value">{{ promedioReservas | number:'1.2-2' }}</p>
     </div>
 
   </div>
@@ -33,7 +34,7 @@
     <div class="info-card">
       <h3>Cliente más popular</h3>
       <p *ngIf="clientePopular">
-        👤 {{ clientePopular.nombre }}  
+        👤 {{ clientePopular.nombre }}
         <br>📦 {{ clientePopular.reservas }} reservas
       </p>
     </div>
@@ -41,7 +42,7 @@
     <div class="info-card">
       <h3>Reserva más reciente</h3>
       <p *ngIf="reservaReciente">
-        🗓 {{ reservaReciente.fecha }}  
+        🗓 {{ reservaReciente.fecha }}
         <br>👤 {{ reservaReciente.cliente }}
         <br>📦 {{ reservaReciente.pack }}
       </p>
@@ -50,7 +51,7 @@
     <div class="info-card full">
       <h3>Pack con mayor ingreso</h3>
       <p *ngIf="packMayorIngreso">
-        💼 {{ packMayorIngreso.nombre }}  
+        💼 {{ packMayorIngreso.nombre }}
         <br>💰 {{ packMayorIngreso.ingresos }} €
       </p>
       <canvas id="chartMayorIngreso"></canvas>
